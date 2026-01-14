@@ -1,1 +1,13 @@
-
+Forecasting weather parameters or variables has uncertainty due to choatic and non-linear nature of the atmosphere. 
+What is uncertainity in this context. Understand with an example.
+Reducing uncertinity in weather forecasting is an crucial step for getting improved forecast accuracy and reliability.
+Ensemble forecasting, which involves running multiple simulations with slight variations in initial conditions and model physics (10, 11), 
+provides today the only feasible way to estimate forecast uncertainty through the spread among individual members. 
+ Traditional ensemble prediction systems (EPSs) are based on the physics-based numerical weather prediction (NWP) models. 
+For example, the state-of-the-art EPS of European Centre for Medium-Range Weather Forecasts (ECMWF; ECMWF-ENS hereafter) uses techniques 
+like the singular vector (SV) approach and the stochastically perturbed parameterization tendency scheme (15, 16) to introduce perturbations 
+in initial conditions and physical tendencies, respectively, within its deterministic Integrated Forecast System (IFS).
+While increasing the ensemble size can improve uncertainty estimates (15, 17), the substantial computational demands of NWP models constrain ensemble size, limiting the abil-
+ity to represent the full probability distribution of possible weather scenarios.
+Major global ensemble systems typically have between 14 and 51 members (18–20), underscoring the need for more computationally efficient 
+approaches to ensemble forecasting.
