@@ -2,7 +2,7 @@ Forecasting weather parameters or variables has uncertainty due to choatic and n
 What is uncertainity in this context. Understand with an example.
 Reducing uncertinity in weather forecasting is an crucial step for getting improved forecast accuracy and reliability.
 Ensemble forecasting, which involves running multiple simulations with slight variations in initial conditions and model physics (10, 11), 
-provides today the only feasible way to estimate forecast uncertainty through the spread among individual members. 
+provides today the **only feasible way to estimate forecast uncertainty through the spread among individual members.** 
  Traditional ensemble prediction systems (EPSs) are based on the physics-based numerical weather prediction (NWP) models. 
 For example, the state-of-the-art EPS of European Centre for Medium-Range Weather Forecasts (ECMWF; ECMWF-ENS hereafter) uses techniques 
 like the singular vector (SV) approach and the stochastically perturbed parameterization tendency scheme (15, 16) to introduce perturbations 
@@ -11,3 +11,17 @@ While increasing the ensemble size can improve uncertainty estimates (15, 17), t
 ity to represent the full probability distribution of possible weather scenarios.
 Major global ensemble systems typically have between 14 and 51 members (18–20), underscoring the need for more computationally efficient 
 approaches to ensemble forecasting.
+
+ It have begun to explore the more complex and challenging domain of ensemble forecasting. 
+For instance, Chen et al. (FuXI base paper) used random Perlin noise to perturb initial conditions, but this approach led to a 
+reduced ensemble spread at longer lead times, resulting in an underestimation of forecast uncertainty [Not able to understand this properly]
+
+Beyond initial-condition perturbations, "generative ML models" have been explored as potential solutions. 
+ 1. For example, Price et al. developed GenCast using a diffusion model (27, 28) to account for uncertainties in initial and 
+    subsequent predicted weather states.
+ 2. Li et al. (29) proposed the Scalable Ensemble Envelope Diffusion Sampler (SEEDS), which considers the spatial coherence of variables
+    However, SEEDS requires input from two Global Ensemble Forecast System (GEFS) (20) members and is limited to predicting only eight
+    variables at a coarse 2° resolution
+3.  Despite these advances (24, 26, 29–31), an optimal ML-based ensemble forecasting method remains elusive, particularly for 
+    predicting extreme weather events at fine spatial resolutions.
+4. FGN also came into the picture. it uses model devation based on initial conditions.
