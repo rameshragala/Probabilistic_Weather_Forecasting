@@ -25,3 +25,10 @@ Beyond initial-condition perturbations, "generative ML models" have been explore
 3.  Despite these advances (24, 26, 29–31), an optimal ML-based ensemble forecasting method remains elusive, particularly for 
     predicting extreme weather events at fine spatial resolutions.
 4. FGN also came into the picture. it uses model devation based on initial conditions.
+
+
+
+
+
+Need to check the perturbation (physics based one) over the samples and perturbation (Diffusion based) check and validate indetail.  Variability needs to be checked
+
