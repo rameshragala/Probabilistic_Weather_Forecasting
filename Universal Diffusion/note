@@ -1,0 +1,54 @@
+UNIVERSAL DIFFUSION-BASED PROBABILISTIC DOWNSCALING: https://arxiv.org/pdf/2602.11893 --> Another paper code https://github.com/camlab-ethz/GenCFD
+Abstract: Developed a framework that takes deterministic low-resolution weather forecast into probabilistic high-resolution prediction with-out 
+any "model specific fine tunring". --Why model specifi fine-tuning.-- A single conditional diffusion model is trained on paired coarse-resolution
+inputs (25km) and high-resolution regional reanalysis targets (5km).
+1. 9-25km resolution many near-surface processes and land–atmosphere interactions remain only partially resolved. 
+2. Sub-grid-scale effects associated with terrain, surface roughness, land use, and boundary-layer structure are therefore suppressed or parameterized, 
+   leading to systematic loss of small-scale spatial variability. This loss directly impacts forecast skill for near-surface variables such
+   as 2m temperature and 10m wind speed, which are strongly controlled by local surface heterogeneity.
+3. A widely used strategy to address this limitation is "downscaling", i.e. the enrichment of coarse-resolution forecasts with fine-scale spatial detail.
+4. Dynamical downscaling resolves the governing equations on a finer grid using a nested regional model driven by coarse boundary condition
+5. While physically consistent, this approach remains computationally expensive and tightly coupled to specific NWP model configurations
+6. Nevertheless, operational systems are often restricted to deterministic outputs because uncertainty estimation, typically achieved 
+   via ensemble models is computationally expensive.
+7. "A natural remedy is to abandon deterministic mappings altogether and instead formulate downscaling as the problem of learning 
+   the conditional distribution of fine-scale states given a coarse-resolution forecast. However, learning high-dimensional conditional 
+   distributions in a stable and scalable manner has remained a major challenge for data-driven downscaling "
+8. In this paper work "the author adopt this perspective and formulate high-resolution downscaling as a conditional generative modeling problem."
+9. The author introduced "a diffusion-based framework that learns a stochastic mapping from coarse-resolution atmospheric states to 
+   distributions of fine-scale surface fields, trained solely on paired reanalysis data."
+10. LOGIC -->  "The downscaler is trained once using low-resolution→high-resolution analysis or reanalysis pairs and is subsequently 
+    applied zero-shot as a post-processing step to a diverse set of heterogeneous deterministic forecasts, spanning both 
+    AI-based and NWP systems." --> our idea is to use GFS (25km and 12km) to high-resolution HRRR(2km) for conditional diffusion downscaling
+11. This decouples the learning of fine-scale surface structure from the upstream forecast model and allows a single probabilistic 
+    module to be reused across forecasting pipelines with different numerical formulations, resolutions, and systematic biases.
+12. Using independent in situ station observations, we show that diffusion-based downscaling consistently improves forecast quality 
+    across all tested upstream models. --> results are compared with insitu observation. is over globe or specific station
+Author Contribution claims:
+       • We introduce a single, model-agnostic conditional diffusion downscaler trained solely on low-resolution→high-resolution 
+         reanalysis pairs, which can be applied zero-shot as a post-processing step to heterogeneous operational deterministic 
+        forecasts from both AI-based and NWP models.
+     • We show that a single deterministic forecast can be lifted to a probabilistic forecast without explicit ensembling, 
+       providing uncertainty-aware predictions at a fraction of the computational cost of traditional ensemble systems.
+     • We demonstrate through independent weather station verification that this plug-and-play downscaling consistently 
+       improves forecast quality across diverse upstream systems at continental (European) scale, yielding gains in both 
+      point accuracy and probabilistic skill across multiple near-surface variables.
+13. Deterministic training objectives (e.g., mean squared error) lead them to regress to the conditional mean of the target 
+    distribution, resulting in smoothed predictions that lack physically relevant small-scale structure--> "For a given input x, 
+    the model learns to output the average of all possible correct targets y."  
+14. To address the above limitation, recent works have explored using diffusion models to learn probabilistic weather forecasts 
+    that capture the full distribution of possible outcome. However, these large models are computationally expensive during inference time.
+15. In this work, we address all of these limitations by exploring statistical downscaling through diffusion models as a means of 
+    improving operational medium-range weather forecasts on a continental scale across multiple relevant surface variables.
+
+Experimental Setup
+   . ERA5 reanalysis low-resolution inputs ¯u (0.25◦ resolution) and CERRA reanalysis as high-resolution targets u (0.05◦). 
+      --> u means high-resolution data and ¯u is low resolution data
+   . ERA5 inputs and CERRA targets include t2m, eastward and northward 10 m wind components (u10, v10), and  msl.
+   . Training is performed on data spanning the period 2014–2023. All input and output channels are standardized using 
+      ERA5 statistics computed over the period 1979–2021
+   . Denoiser training: A clean high-resolution target u is corrupted with Gaussian noise η ∼ N (0, σ2τ I) and, together with 
+     the conditioning inputs, passed to the denoiser Dθ , which is trained to reconstruct u via a mean-squared denoising objective.
+   . Denoiser architecture. A U-Net encoder–decoder with residual blocks at each resolution and attention at the bottleneck. The noisy 
+     sample uτ is concatenated with the coarse-resolution forecast ¯u and static high-resolution fields. The noise level στ 
+    (and lead time, when applicable) is embedded and injected at all resolutions via adaptive scale–shift modulation. 
